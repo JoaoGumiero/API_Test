@@ -4,10 +4,9 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/JoaoGumiero/Crud/handlers"
 	"github.com/gorilla/mux"
-	"github.com/joaog/API_Test/handlers"
 )
-
 
 func UploadRoutes() {
 	r := mux.NewRouter()

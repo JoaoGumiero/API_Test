@@ -3,15 +3,14 @@ package models
 import (
 	"log"
 
-	"github.com/joaog/API_Test/db"
-	_ "github.com/lib/pq"
+	"github.com/JoaoGumiero/Crud/db"
 )
 
 type Product struct {
-	Id              int
-	Name string
+	Id          int
+	Name        string
 	Description string
-	Price           float64
+	Price       float64
 	Amount      int
 }
 
@@ -43,9 +42,9 @@ func SearchAllProducts() []Product {
 	}
 	defer db.Close()
 	return Products
-};
+}
 
-func CreateProduct(name, description string, price float64, amount int){
+func CreateProduct(name, description string, price float64, amount int) {
 	db := db.DbConnection()
 	insertDataIntoDB, err := db.Prepare("insert into products(name, description, price, amount) values($1, $2, $3, $4)")
 	if err != nil {
@@ -54,7 +53,7 @@ func CreateProduct(name, description string, price float64, amount int){
 
 	insertDataIntoDB.Exec(name, description, price, amount)
 	defer db.Close()
-};
+}
 
 func DeleteProduct(id string) {
 	db := db.DbConnection()
@@ -67,7 +66,7 @@ func DeleteProduct(id string) {
 	defer db.Close()
 }
 
-func EditProduct (id string) Product {
+func EditProduct(id string) Product {
 	db := db.DbConnection()
 
 	ProductInBD, err := db.Query("select * from products where id=$1", id)
@@ -94,7 +93,6 @@ func EditProduct (id string) Product {
 	defer db.Close()
 	return p
 }
-
 
 func UpdateProduct(id int, name, description string, price float64, amount int) {
 	db := db.DbConnection()
