@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"text/template"
 
-	"github.com/joaog/API_Test/models"
+	"github.com/JoaoGumiero/Crud/models"
 )
 
 // trazer todos os templates da pasta
@@ -18,12 +18,11 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	temp.ExecuteTemplate(w, "Index", allProducts)
 }
 
-
 func NewProductHandler(w http.ResponseWriter, r *http.Request) {
 	temp.ExecuteTemplate(w, "NewProduct", nil)
 }
 
-func InsertProductHandler(w http.ResponseWriter, r *http.Request){
+func InsertProductHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		name := r.FormValue("name")
 		description := r.FormValue("description")
@@ -75,7 +74,7 @@ func UpdateProductHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println("Failed to convert the amount object", err)
 		}
-		models.UpdateProduct(idInted,name, description, priceFloated, amountInted)
+		models.UpdateProduct(idInted, name, description, priceFloated, amountInted)
 	}
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }

@@ -1,8 +1,7 @@
 package main
 
 import (
-	"github.com/joaog/API_Test/routes"
-	_ "github.com/lib/pq"
+	"github.com/JoaoGumiero/Crud/routes"
 )
 
 // Precisa de uma função principal para a nossa aplicação, dentro dela sera inserida o código
