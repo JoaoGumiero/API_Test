@@ -1,23 +1,20 @@
 package routes
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/JoaoGumiero/Crud/handlers"
-	"github.com/gorilla/mux"
 )
 
-func UploadRoutes() {
-	r := mux.NewRouter()
-	r.HandleFunc("/", handlers.Index)
-	// Define your HTTP routes using the router
-	r.HandleFunc("/newProduct", handlers.NewProductHandler)
-	r.HandleFunc("/insert", handlers.InsertProductHandler)
-	r.HandleFunc("/delete", handlers.DeleteProductHandler)
-	r.HandleFunc("/edit", handlers.EditProductHandler)
-	r.HandleFunc("/update", handlers.UpdateProductHandler)
+func UploadRoutes() *http.ServeMux {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", handlers.Index)
 
-	log.Println("Server listening on:8000")
-	http.ListenAndServe(":8000", r)
+	mux.HandleFunc("/newProduct", handlers.NewProductHandler)
+	mux.HandleFunc("POST /products", handlers.InsertProductHandler)
+	mux.HandleFunc("DELETE /products", handlers.DeleteProductHandler)
+	mux.HandleFunc("PATCH /products", handlers.EditProductHandler)
+	mux.HandleFunc("PUT /products", handlers.UpdateProductHandler)
+
+	return mux
 }
