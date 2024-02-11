@@ -1,4 +1,4 @@
-package handlers
+package api
 
 import (
 	"log"
@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"text/template"
 
-	"github.com/JoaoGumiero/Crud/models"
+	"github.com/JoaoGumiero/Crud/postgres"
 )
 
 // trazer todos os templates da pasta
@@ -14,7 +14,7 @@ var temp = template.Must(template.ParseGlob("templates/*.html"))
 
 // Arrumar essa função aqui junto com o HTML
 func Index(w http.ResponseWriter, r *http.Request) {
-	allProducts := models.SearchAllProducts()
+	allProducts := postgres.SearchAllProducts()
 	temp.ExecuteTemplate(w, "Index", allProducts)
 }
 
@@ -37,20 +37,20 @@ func InsertProductHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println("Failed to convert the amount object", err)
 		}
-		models.CreateProduct(name, description, priceFloated, amountInted)
+		postgres.CreateProduct(name, description, priceFloated, amountInted)
 	}
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
 func DeleteProductHandler(w http.ResponseWriter, r *http.Request) {
 	productID := r.URL.Query().Get("id")
-	models.DeleteProduct(productID)
+	postgres.DeleteProduct(productID)
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
 func EditProductHandler(w http.ResponseWriter, r *http.Request) {
 	productID := r.URL.Query().Get("id")
-	product := models.EditProduct(productID)
+	product := postgres.EditProduct(productID)
 	temp.ExecuteTemplate(w, "Edit", product)
 }
 
@@ -74,7 +74,7 @@ func UpdateProductHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println("Failed to convert the amount object", err)
 		}
-		models.UpdateProduct(idInted, name, description, priceFloated, amountInted)
+		postgres.UpdateProduct(idInted, name, description, priceFloated, amountInted)
 	}
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
