@@ -1,13 +1,11 @@
 package main
 
-import (
-	"github.com/JoaoGumiero/Crud/routes"
-)
+import "github.com/JoaoGumiero/Crud/api"
 
 // Precisa de uma função principal para a nossa aplicação, dentro dela sera inserida o código
 func main() {
 	//Subir o servidor
-	routes.UploadRoutes()
+	api.UploadRoutes()
 
 	// for {
 	// 	sh.ShowMenu()

@@ -1,9 +1,7 @@
-package models
+package postgres
 
 import (
 	"log"
-
-	"github.com/JoaoGumiero/Crud/db"
 )
 
 type Product struct {
@@ -15,7 +13,7 @@ type Product struct {
 }
 
 func SearchAllProducts() []Product {
-	db := db.DbConnection()
+	db := DbConnection()
 
 	sql, err := db.Query("select * from products")
 	if err != nil {
@@ -45,7 +43,7 @@ func SearchAllProducts() []Product {
 }
 
 func CreateProduct(name, description string, price float64, amount int) {
-	db := db.DbConnection()
+	db := DbConnection()
 	insertDataIntoDB, err := db.Prepare("insert into products(name, description, price, amount) values($1, $2, $3, $4)")
 	if err != nil {
 		panic(err.Error())
@@ -56,7 +54,7 @@ func CreateProduct(name, description string, price float64, amount int) {
 }
 
 func DeleteProduct(id string) {
-	db := db.DbConnection()
+	db := DbConnection()
 
 	deleteDataFromDB, err := db.Prepare("delete from products where id=$1")
 	if err != nil {
@@ -67,7 +65,7 @@ func DeleteProduct(id string) {
 }
 
 func EditProduct(id string) Product {
-	db := db.DbConnection()
+	db := DbConnection()
 
 	ProductInBD, err := db.Query("select * from products where id=$1", id)
 	if err != nil {
@@ -95,7 +93,7 @@ func EditProduct(id string) Product {
 }
 
 func UpdateProduct(id int, name, description string, price float64, amount int) {
-	db := db.DbConnection()
+	db := DbConnection()
 	editDataFromDB, err := db.Prepare("update products set name=$1, description=$2, price=$3, amount=$4 where id=$5")
 	if err != nil {
 		panic(err.Error())
