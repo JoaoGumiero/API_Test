@@ -12,44 +12,34 @@ type Product struct {
 	Amount      int
 }
 
-func SearchAllProducts() []Product {
+func SearchAllProducts() ([]Product, error ) {
 	db := DbConnection()
 
 	sql, err := db.Query("select * from products")
 	if err != nil {
 		log.Fatal(err)
 	}
-	p := Product{}
+	defer db.Close()
 	Products := []Product{}
 
 	for sql.Next() {
-		var id, amount int
-		var name, description string
-		var price float64
-
-		err := sql.Scan(&id, &name, &description, &price, &amount)
+		p := Product{}
+		err := sql.Scan(&p.Id, &p.Name, &p.Description, &p.Price, &p.Amount)
 		if err != nil {
 			panic(err.Error())
 		}
-		p.Id = id
-		p.Name = name
-		p.Description = description
-		p.Amount = amount
-		p.Price = price
 		Products = append(Products, p)
 	}
-	defer db.Close()
-	return Products
+	return Products, nil
 }
 
-func CreateProduct(name, description string, price float64, amount int) {
+func CreateProduct(product Product) {
 	db := DbConnection()
-	insertDataIntoDB, err := db.Prepare("insert into products(name, description, price, amount) values($1, $2, $3, $4)")
+	_,err := db.Exec("insert into products(name, description, price, amount) values($1, $2, $3, $4)",
+product.Name, product.Description, product.Price, product.Amount)
 	if err != nil {
 		panic(err.Error())
 	}
-
-	insertDataIntoDB.Exec(name, description, price, amount)
 	defer db.Close()
 }
 
@@ -61,6 +51,7 @@ func DeleteProduct(id string) {
 		panic(err.Error())
 	}
 	deleteDataFromDB.Exec(id)
+
 	defer db.Close()
 }
 

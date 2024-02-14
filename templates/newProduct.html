@@ -13,7 +13,7 @@
                 <p class="lead">Fill the details</p>
             </div>
         </div>
-        <form method="POST" action="insert">
+        <form method="POST" action="/products">
             <div class="row">
                 <div class="col-sm-8">
                     <div class="form-group">
@@ -34,7 +34,7 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label for="price">Price:</label>
-                        <input type="number" name="price" class="form-control" step="0.01">
+                        <input type="number" step="0.01" name="price" class="form-control" step="0.01">
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <button type="submit" value="save" class="btn btn-success">Save</button>
-            <a class="btn btn-info" href="/">Go Back</a>
+            <a class="btn btn-info" href="/products">Go Back</a>
         </form>
     </body>
 
